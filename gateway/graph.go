@@ -25,3 +25,9 @@ func (s *GatewayServer) Mutation() gatewayGraphQL.MutationResolver {
 		server: s,
 	}
 }
+
+func (s *GatewayServer) Query() gatewayGraphQL.QueryResolver {
+	return &queryResolver{
+		server: s,
+	}
+}
