@@ -1,0 +1,35 @@
+services:
+    account-service:
+        build:
+            context: .
+            dockerfile: ./account/compose/account.dockerfile
+        image: account-service:latest
+        container_name: account-service
+        volumes:
+            - .:/app:z
+        env_file:
+            - ./account/.envs/.account.env
+        networks:
+            - graphql-gprc-go-microservices-network
+        depends_on:
+            - account-service-db
+
+    account-service-db:
+        build:
+            context: .
+            dockerfile: ./account/compose/account-db.dockerfile
+        image: account-service-db:latest
+        container_name: account-service-db
+        volumes:
+            - account-service-db-data:/var/lib/postgresql/data
+        env_file:
+            - ./account/.envs/.account-db.env
+        networks:
+            - graphql-gprc-go-microservices-network
+
+networks:
+    graphql-gprc-go-microservices-network:
+        driver: bridge
+
+volumes:
+    account-service-db-data:
