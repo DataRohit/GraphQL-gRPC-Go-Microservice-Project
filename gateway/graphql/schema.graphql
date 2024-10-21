@@ -1,0 +1,27 @@
+type Account {
+    id: ID!
+    email: String!
+    name: String!
+    createdAt: String!
+    updatedAt: String!
+}
+
+input AccountInput {
+    email: String!
+    name: String!
+}
+
+input PaginationInput {
+    limit: Int!
+    offset: Int!
+}
+
+type Query {
+    getAccountByID(id: ID!): Account
+    getAccountByEmail(email: String!): Account
+    listAccounts(pagination: PaginationInput): [Account!]!
+}
+
+type Mutation {
+    createAccount(email: String!, name: String!): Account!
+}
