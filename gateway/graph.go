@@ -31,3 +31,9 @@ func (s *GatewayServer) Query() gatewayGraphQL.QueryResolver {
 		server: s,
 	}
 }
+
+func (s *GatewayServer) Account() gatewayGraphQL.AccountResolver {
+	return &accountResolver{
+		server: s,
+	}
+}
