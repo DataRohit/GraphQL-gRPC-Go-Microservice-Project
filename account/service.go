@@ -2,7 +2,6 @@ package account
 
 import (
 	"context"
-	"fmt"
 )
 
 type AccountService interface {
@@ -22,13 +21,13 @@ func NewAccountService(repository AccountRepository) (AccountService, error) {
 
 func (service *accountService) CreateAccount(ctx context.Context, email, name string) (*Account, error) {
 	if err := service.repository.CreateAccount(ctx, email, name); err != nil {
-		return nil, fmt.Errorf("failed to create account: %w", err)
+		return nil, err
 	}
 
 	var account Account
 	account, err := service.repository.GetAccountByEmail(ctx, email)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get account: %w", err)
+		return nil, err
 	}
 
 	return &account, nil

@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"os/signal"
@@ -19,6 +18,9 @@ import (
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/types/known/timestamppb"
+
+	grpcResposeCodes "google.golang.org/grpc/codes"
+	grpcResposeStatus "google.golang.org/grpc/status"
 )
 
 type accountGrpcServer struct {
@@ -80,11 +82,9 @@ func ListenGRPC(s AccountService, port int, secure bool) error {
 func (s *accountGrpcServer) CreateAccount(ctx context.Context, r *protobuf.CreateAccountRequest) (*protobuf.CreateAccountResponse, error) {
 	a, err := s.service.CreateAccount(ctx, r.Email, r.Name)
 	if err != nil {
-		log.Printf("failed to create account: %v", err)
-
 		return &protobuf.CreateAccountResponse{
 			Result: &protobuf.CreateAccountResponse_Error{Error: err.Error()},
-		}, nil
+		}, grpcResposeStatus.Errorf(grpcResposeCodes.Internal, err.Error())
 	}
 
 	return &protobuf.CreateAccountResponse{
@@ -105,7 +105,7 @@ func (s *accountGrpcServer) GetAccountByID(ctx context.Context, r *protobuf.GetA
 	if err != nil {
 		return &protobuf.GetAccountByIDResponse{
 			Result: &protobuf.GetAccountByIDResponse_Error{Error: err.Error()},
-		}, nil
+		}, grpcResposeStatus.Errorf(grpcResposeCodes.NotFound, err.Error())
 	}
 
 	return &protobuf.GetAccountByIDResponse{
@@ -126,7 +126,7 @@ func (s *accountGrpcServer) GetAccountByEmail(ctx context.Context, r *protobuf.G
 	if err != nil {
 		return &protobuf.GetAccountByEmailResponse{
 			Result: &protobuf.GetAccountByEmailResponse_Error{Error: err.Error()},
-		}, nil
+		}, grpcResposeStatus.Errorf(grpcResposeCodes.NotFound, err.Error())
 	}
 
 	return &protobuf.GetAccountByEmailResponse{
@@ -147,7 +147,7 @@ func (s *accountGrpcServer) ListAccounts(ctx context.Context, r *protobuf.ListAc
 	if err != nil {
 		return &protobuf.ListAccountsResponse{
 			Error: err.Error(),
-		}, nil
+		}, grpcResposeStatus.Errorf(grpcResposeCodes.NotFound, err.Error())
 	}
 
 	var accounts []*protobuf.Account
