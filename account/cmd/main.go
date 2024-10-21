@@ -6,7 +6,6 @@ import (
 
 	"graphql-grpc-go-microservice-project/account"
 
-	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/tinrab/retry"
 )
@@ -17,11 +16,6 @@ type Config struct {
 }
 
 func main() {
-	err := godotenv.Load(".envs/.account.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-
 	var cfg Config
 	if err := envconfig.Process("", &cfg); err != nil {
 		log.Fatalf("Error processing environment variables: %v", err)

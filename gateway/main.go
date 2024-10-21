@@ -7,7 +7,6 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -17,13 +16,8 @@ type AppConfig struct {
 }
 
 func main() {
-	err := godotenv.Load(".envs/.gateway.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
 	var cfg AppConfig
-	err = envconfig.Process("", &cfg)
+	err := envconfig.Process("", &cfg)
 	if err != nil {
 		log.Fatalf("Failed to load environment variables: %v", err)
 	}
