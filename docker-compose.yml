@@ -27,6 +27,21 @@ services:
         networks:
             - graphql-gprc-go-microservices-network
 
+    gateway-service:
+        build:
+            context: .
+            dockerfile: ./gateway/compose/gateway.dockerfile
+        image: gateway-service:latest
+        container_name: gateway-service
+        ports:
+            - "8080:8080"
+        volumes:
+            - .:/app:z
+        env_file:
+            - ./gateway/.envs/.gateway.env
+        networks:
+            - graphql-gprc-go-microservices-network
+
 networks:
     graphql-gprc-go-microservices-network:
         driver: bridge
