@@ -2,6 +2,7 @@ package main
 
 import (
 	"graphql-grpc-go-microservice-project/account"
+	gatewayGraphQL "graphql-grpc-go-microservice-project/gateway/graphql"
 )
 
 type GatewayServer struct {
@@ -17,4 +18,10 @@ func NewGraphQLServer(accountServiceURL string, secure bool) (*GatewayServer, er
 	return &GatewayServer{
 		AccountClient: accountClient,
 	}, nil
+}
+
+func (s *GatewayServer) Mutation() gatewayGraphQL.MutationResolver {
+	return &mutationResolver{
+		server: s,
+	}
 }
