@@ -3,6 +3,8 @@ package main
 import (
 	"graphql-grpc-go-microservice-project/account"
 	gatewayGraphQL "graphql-grpc-go-microservice-project/gateway/graphql"
+
+	"github.com/99designs/gqlgen/graphql"
 )
 
 type GatewayServer struct {
@@ -36,4 +38,10 @@ func (s *GatewayServer) Account() gatewayGraphQL.AccountResolver {
 	return &accountResolver{
 		server: s,
 	}
+}
+
+func (s *GatewayServer) ToExecutableSchema() graphql.ExecutableSchema {
+	return gatewayGraphQL.NewExecutableSchema(gatewayGraphQL.Config{
+		Resolvers: s,
+	})
 }
