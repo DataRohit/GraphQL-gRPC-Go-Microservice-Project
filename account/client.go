@@ -6,8 +6,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"go.uber.org/zap"
 
 	"graphql-grpc-go-microservice-project/account/protobuf"
+
+	"graphql-grpc-go-microservice-project/common"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -17,9 +20,12 @@ import (
 type AccountClient struct {
 	conn    *grpc.ClientConn
 	service protobuf.AccountServiceClient
+	logger  *zap.Logger
 }
 
 func NewAccountClient(url string, secure bool) (*AccountClient, error) {
+	logger := common.GetLogger()
+
 	var opts []grpc.DialOption
 	if secure {
 		creds := credentials.NewTLS(&tls.Config{
@@ -35,14 +41,19 @@ func NewAccountClient(url string, secure bool) (*AccountClient, error) {
 
 	conn, err := grpc.NewClient(url, opts...)
 	if err != nil {
+		logger.Error("Failed to connect to gRPC server", zap.String("url", url), zap.String("error", err.Error()))
 		return nil, err
 	}
 
+	logger.Info("Connected to gRPC server", zap.String("url", url))
+
 	client := protobuf.NewAccountServiceClient(conn)
-	return &AccountClient{conn: conn, service: client}, nil
+
+	return &AccountClient{conn: conn, service: client, logger: logger}, nil
 }
 
 func (c *AccountClient) Close() error {
+	c.logger.Info("Closing gRPC connection")
 	return c.conn.Close()
 }
 
@@ -50,13 +61,18 @@ func (c *AccountClient) CreateAccount(ctx context.Context, email, name string) (
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
+	c.logger.Info("CreateAccount request received", zap.String("email", email), zap.String("name", name))
+
 	r, err := c.service.CreateAccount(ctx, &protobuf.CreateAccountRequest{
 		Email: email,
 		Name:  name,
 	})
 	if err != nil {
+		c.logger.Error("Failed to create account", zap.String("email", email), zap.String("error", err.Error()))
 		return nil, err
 	}
+
+	c.logger.Info("Account created successfully", zap.String("account_id", r.GetAccount().GetId()), zap.String("email", email), zap.String("name", name))
 
 	return &Account{
 		ID:        uuid.MustParse(r.GetAccount().GetId()),
@@ -71,10 +87,15 @@ func (c *AccountClient) GetAccountByID(ctx context.Context, id string) (*Account
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
+	c.logger.Info("GetAccountByID request received", zap.String("account_id", id))
+
 	r, err := c.service.GetAccountByID(ctx, &protobuf.GetAccountByIDRequest{Id: id})
 	if err != nil {
+		c.logger.Error("Failed to fetch account", zap.String("account_id", id), zap.String("error", err.Error()))
 		return nil, err
 	}
+
+	c.logger.Info("Account fetched successfully", zap.String("account_id", r.GetAccount().GetId()), zap.String("email", r.GetAccount().GetEmail()), zap.String("name", r.GetAccount().GetName()))
 
 	return &Account{
 		ID:        uuid.MustParse(r.GetAccount().GetId()),
@@ -89,10 +110,15 @@ func (c *AccountClient) GetAccountByEmail(ctx context.Context, email string) (*A
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
+	c.logger.Info("GetAccountByEmail request received", zap.String("email", email))
+
 	r, err := c.service.GetAccountByEmail(ctx, &protobuf.GetAccountByEmailRequest{Email: email})
 	if err != nil {
+		c.logger.Error("Failed to fetch account", zap.String("email", email), zap.String("error", err.Error()))
 		return nil, err
 	}
+
+	c.logger.Info("Account fetched successfully", zap.String("account_id", r.GetAccount().GetId()), zap.String("email", email), zap.String("name", r.GetAccount().GetName()))
 
 	return &Account{
 		ID:        uuid.MustParse(r.GetAccount().GetId()),
@@ -107,13 +133,18 @@ func (c *AccountClient) ListAccounts(ctx context.Context, limit, offset int32) (
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
+	c.logger.Info("ListAccounts request received", zap.Int32("limit", limit), zap.Int32("offset", offset))
+
 	r, err := c.service.ListAccounts(ctx, &protobuf.ListAccountsRequest{
 		Limit:  limit,
 		Offset: offset,
 	})
 	if err != nil {
+		c.logger.Error("Failed to list accounts", zap.String("error", err.Error()))
 		return nil, err
 	}
+
+	c.logger.Info("Accounts listed successfully", zap.Int("account_count", len(r.GetAccounts())))
 
 	var accounts []Account
 	for _, acc := range r.GetAccounts() {
