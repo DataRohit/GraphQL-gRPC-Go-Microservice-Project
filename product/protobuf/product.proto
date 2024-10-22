@@ -45,6 +45,8 @@ message ListProductsResponse {
 
 message ListProductsWithIDsRequest {
     repeated string ids = 1;
+    int32 limit = 2;
+    int32 offset = 3;
 }
 
 message ListProductsWithIDsResponse {
