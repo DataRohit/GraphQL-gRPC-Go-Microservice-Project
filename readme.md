@@ -1,6 +1,6 @@
 # GraphQL-gRPC-Go-Microservice-Project
 
-![Project Architecture Design](https://i.ibb.co/S6vvM67/Graph-QL-gRPC-Go-Microservice.png)
+![Project Architecture Design](./assets/project-architecture-diagram.png)
 
 [Project Architecture Design - Whimsical](https://whimsical.com/graphql-grpc-go-microservice-JGUJXyUsLacNEHpCCxCpcC)
 
