@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"graphql-grpc-go-microservice-project/account"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func convertToModel(account *account.Account) *models.Account {
+func ConvertAccountToModel(account *account.Account) *models.Account {
 	return &models.Account{
 		ID:        account.ID,
 		Email:     account.Email,

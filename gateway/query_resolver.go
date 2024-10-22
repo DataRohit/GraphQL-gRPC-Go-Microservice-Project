@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	gatewayUtils "graphql-grpc-go-microservice-project/common/gateway"
 	"graphql-grpc-go-microservice-project/gateway/models"
 
 	"github.com/google/uuid"
@@ -23,7 +24,7 @@ func (r *queryResolver) GetAccountByID(ctx context.Context, id string) (*models.
 		return nil, err
 	}
 
-	return convertToModel(account), nil
+	return gatewayUtils.ConvertAccountToModel(account), nil
 }
 
 func (r *queryResolver) GetAccountByEmail(ctx context.Context, email string) (*models.Account, error) {
@@ -32,7 +33,7 @@ func (r *queryResolver) GetAccountByEmail(ctx context.Context, email string) (*m
 		return nil, err
 	}
 
-	return convertToModel(account), nil
+	return gatewayUtils.ConvertAccountToModel(account), nil
 }
 
 func (r *queryResolver) ListAccounts(ctx context.Context, pagination *models.PaginationInput) ([]*models.Account, error) {
@@ -48,7 +49,7 @@ func (r *queryResolver) ListAccounts(ctx context.Context, pagination *models.Pag
 
 	var accountList []*models.Account
 	for _, acc := range accounts {
-		accountList = append(accountList, convertToModel(&acc))
+		accountList = append(accountList, gatewayUtils.ConvertAccountToModel(&acc))
 	}
 	return accountList, nil
 }
