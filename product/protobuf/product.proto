@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+option go_package = "graphql-grpc-go-microservice-project/catalog/protobuf";
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    double price = 4;
+}
+
+message CreateProductRequest {
+    string name = 1;
+    string description = 2;
+    double price = 3;
+}
+
+message CreateProductResponse {
+    oneof result {
+        Product product = 1;
+        string error = 2;
+    }
+}
+
+message GetProductByIDRequest {
+    string id = 1;
+}
+
+message GetProductByIDResponse {
+    oneof result {
+        Product product = 1;
+        string error = 2;
+    }
+}
+
+message ListProductsRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+}
+
+message ListProductsResponse {
+    repeated Product products = 1;
+    string error = 2;
+}
+
+message ListProductsWithIDsRequest {
+    repeated string ids = 1;
+}
+
+message ListProductsWithIDsResponse {
+    repeated Product products = 1;
+    string error = 2;
+}
+
+message SearchProductsRequest {
+    string query = 1;
+    int32 limit = 2;
+    int32 offset = 3;
+}
+
+message SearchProductsResponse {
+    repeated Product products = 1;
+    string error = 2;
+}
+
+service ProductService {
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+    rpc GetProductByID(GetProductByIDRequest) returns (GetProductByIDResponse);
+    rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+    rpc ListProductsWithIDs(ListProductsWithIDsRequest) returns (ListProductsWithIDsResponse);
+    rpc SearchProducts(SearchProductsRequest) returns (SearchProductsResponse);
+}
