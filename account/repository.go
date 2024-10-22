@@ -80,7 +80,9 @@ func (repository *accountRepository) GetAccountByEmail(ctx context.Context, emai
 func (repository *accountRepository) ListAccounts(ctx context.Context, limit, offset int) ([]Account, error) {
 	query := `
         SELECT id, email, name, created_at, updated_at
-        FROM accounts LIMIT $1 OFFSET $2`
+        FROM accounts
+        ORDER BY created_at ASC
+        LIMIT $1 OFFSET $2`
 	rows, err := repository.db.Query(ctx, query, limit, offset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list accounts: %w", err)

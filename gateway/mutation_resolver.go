@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	gatewayUtils "graphql-grpc-go-microservice-project/common/gateway"
 	"graphql-grpc-go-microservice-project/gateway/models"
 )
 
@@ -20,5 +21,5 @@ func (r *mutationResolver) CreateAccount(ctx context.Context, email, name string
 		return nil, err
 	}
 
-	return convertToModel(account), nil
+	return gatewayUtils.ConvertAccountToModel(account), nil
 }
