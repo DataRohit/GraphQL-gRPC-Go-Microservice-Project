@@ -12,6 +12,7 @@ import (
 
 type AppConfig struct {
 	ACCOUNT_SERVICE_URL string `envconfig:"ACCOUNT_SERVICE_URL" required:"true"`
+	PRODUCT_SERVICE_URL string `envconfig:"PRODUCT_SERVICE_URL" required:"true"`
 	PORT                string `envconfig:"PORT" default:"8080"`
 }
 
@@ -22,7 +23,7 @@ func main() {
 		log.Fatalf("Failed to load environment variables: %v", err)
 	}
 
-	server, err := NewGraphQLServer(cfg.ACCOUNT_SERVICE_URL, false)
+	server, err := NewGraphQLServer(cfg.ACCOUNT_SERVICE_URL, cfg.PRODUCT_SERVICE_URL, false)
 	if err != nil {
 		log.Fatalf("Failed to create GraphQL server: %v", err)
 	}

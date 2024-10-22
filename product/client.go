@@ -79,7 +79,7 @@ func (c *ProductClient) CreateProduct(ctx context.Context, name, description str
 	}, nil
 }
 
-func (c *ProductClient) GetProduct(ctx context.Context, id string) (*Product, error) {
+func (c *ProductClient) GetProductByID(ctx context.Context, id string) (*Product, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
