@@ -11,6 +11,19 @@ input AccountInput {
     name: String!
 }
 
+type Product {
+    id: String!
+    name: String!
+    description: String!
+    price: Float!
+}
+
+input ProductInput {
+    name: String!
+    description: String!
+    price: Float!
+}
+
 input PaginationInput {
     limit: Int!
     offset: Int!
@@ -20,8 +33,14 @@ type Query {
     getAccountByID(id: ID!): Account
     getAccountByEmail(email: String!): Account
     listAccounts(pagination: PaginationInput): [Account!]!
+
+    getProductByID(id: ID!): Product
+    listProducts(pagination: PaginationInput): [Product!]!
+    listProductsWithIDs(ids: [ID!]!, pagination: PaginationInput): [Product!]!
+    searchProducts(query: String!, pagination: PaginationInput): [Product!]!
 }
 
 type Mutation {
-    createAccount(email: String!, name: String!): Account!
+    createAccount(input: AccountInput!): Account!
+    createProduct(input: ProductInput!): Product!
 }

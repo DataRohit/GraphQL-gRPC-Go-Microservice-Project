@@ -12,5 +12,7 @@ model:
 models:
     Account:
         model: graphql-grpc-go-microservice-project/gateway/models.Account
+    Product:
+        model: graphql-grpc-go-microservice-project/gateway/models.Product
 
 autobind: []
