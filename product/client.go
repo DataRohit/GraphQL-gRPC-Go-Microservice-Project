@@ -103,11 +103,11 @@ func (c *ProductClient) GetProductByID(ctx context.Context, id string) (*Product
 	}, nil
 }
 
-func (c *ProductClient) ListProducts(ctx context.Context, limit, offset int32) ([]*Product, error) {
+func (c *ProductClient) ListProducts(ctx context.Context, limit, offset uint32) ([]*Product, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	c.logger.Info("ListProducts request received", zap.Int32("limit", limit), zap.Int32("offset", offset))
+	c.logger.Info("ListProducts request received", zap.Uint32("limit", limit), zap.Uint32("offset", offset))
 
 	r, err := c.service.ListProducts(ctx, &protobuf.ListProductsRequest{
 		Limit:  limit,
@@ -133,11 +133,11 @@ func (c *ProductClient) ListProducts(ctx context.Context, limit, offset int32) (
 	return products, nil
 }
 
-func (c *ProductClient) ListProductsWithIDs(ctx context.Context, ids []string, limit, offset int32) ([]*Product, error) {
+func (c *ProductClient) ListProductsWithIDs(ctx context.Context, ids []string, limit, offset uint32) ([]*Product, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	c.logger.Info("ListProductsWithIDs request received", zap.Strings("product_ids", ids), zap.Int32("limit", limit), zap.Int32("offset", offset))
+	c.logger.Info("ListProductsWithIDs request received", zap.Strings("product_ids", ids), zap.Uint32("limit", limit), zap.Uint32("offset", offset))
 
 	r, err := c.service.ListProductsWithIDs(ctx, &protobuf.ListProductsWithIDsRequest{
 		Ids:    ids,
@@ -164,11 +164,11 @@ func (c *ProductClient) ListProductsWithIDs(ctx context.Context, ids []string, l
 	return products, nil
 }
 
-func (c *ProductClient) SearchProducts(ctx context.Context, query string, limit, offset int32) ([]*Product, error) {
+func (c *ProductClient) SearchProducts(ctx context.Context, query string, limit, offset uint32) ([]*Product, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	c.logger.Info("SearchProducts request received", zap.String("query", query), zap.Int32("limit", limit), zap.Int32("offset", offset))
+	c.logger.Info("SearchProducts request received", zap.String("query", query), zap.Uint32("limit", limit), zap.Uint32("offset", offset))
 
 	r, err := c.service.SearchProducts(ctx, &protobuf.SearchProductsRequest{
 		Query:  query,

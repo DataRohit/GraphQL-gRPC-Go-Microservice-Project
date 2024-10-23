@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"errors"
-	gatewayUtils "graphql-grpc-go-microservice-project/common/gateway"
+	"fmt"
 	"graphql-grpc-go-microservice-project/gateway/models"
+	"graphql-grpc-go-microservice-project/gateway/utils"
 
 	"github.com/google/uuid"
 )
@@ -24,7 +25,7 @@ func (r *queryResolver) GetAccountByID(ctx context.Context, id string) (*models.
 		return nil, err
 	}
 
-	return gatewayUtils.ConvertAccountToModel(account), nil
+	return utils.ConvertAccountToModel(account), nil
 }
 
 func (r *queryResolver) GetAccountByEmail(ctx context.Context, email string) (*models.Account, error) {
@@ -33,23 +34,30 @@ func (r *queryResolver) GetAccountByEmail(ctx context.Context, email string) (*m
 		return nil, err
 	}
 
-	return gatewayUtils.ConvertAccountToModel(account), nil
+	return utils.ConvertAccountToModel(account), nil
 }
 
 func (r *queryResolver) ListAccounts(ctx context.Context, pagination *models.PaginationInput) ([]*models.Account, error) {
-	limit, offset := 0, 0
+	var limit, offset uint32
+	limit, offset = 0, 0
+
 	if pagination != nil {
-		limit, offset = pagination.Limit, pagination.Offset
+		limit = uint32(pagination.Limit)
+		offset = uint32(pagination.Offset)
+
+		if limit > 20 {
+			return nil, fmt.Errorf("failed to fetch accounts: limit %d is greater than 20", limit)
+		}
 	}
 
-	accounts, err := r.server.AccountClient.ListAccounts(ctx, int32(limit), int32(offset))
+	accounts, err := r.server.AccountClient.ListAccounts(ctx, limit, offset)
 	if err != nil {
 		return nil, err
 	}
 
 	var accountList []*models.Account
 	for _, acc := range accounts {
-		accountList = append(accountList, gatewayUtils.ConvertAccountToModel(&acc))
+		accountList = append(accountList, utils.ConvertAccountToModel(&acc))
 	}
 	return accountList, nil
 }
@@ -60,59 +68,80 @@ func (r *queryResolver) GetProductByID(ctx context.Context, id string) (*models.
 		return nil, err
 	}
 
-	return gatewayUtils.ConvertProductToModel(product), nil
+	return utils.ConvertProductToModel(product), nil
 }
 
 func (r *queryResolver) ListProducts(ctx context.Context, pagination *models.PaginationInput) ([]*models.Product, error) {
-	limit, offset := 0, 0
+	var limit, offset uint32
+	limit, offset = 0, 0
+
 	if pagination != nil {
-		limit, offset = pagination.Limit, pagination.Offset
+		limit = uint32(pagination.Limit)
+		offset = uint32(pagination.Offset)
+
+		if limit > 20 {
+			return nil, fmt.Errorf("failed to fetch accounts: limit %d is greater than 20", limit)
+		}
 	}
 
-	products, err := r.server.ProductClient.ListProducts(ctx, int32(limit), int32(offset))
+	products, err := r.server.ProductClient.ListProducts(ctx, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
 
 	var productList []*models.Product
 	for _, prod := range products {
-		productList = append(productList, gatewayUtils.ConvertProductToModel(prod))
+		productList = append(productList, utils.ConvertProductToModel(prod))
 	}
 	return productList, nil
 }
 
 func (r *queryResolver) ListProductsWithIDs(ctx context.Context, ids []string, pagination *models.PaginationInput) ([]*models.Product, error) {
-	limit, offset := 0, 0
+	var limit, offset uint32
+	limit, offset = 0, 0
+
 	if pagination != nil {
-		limit, offset = pagination.Limit, pagination.Offset
+		limit = uint32(pagination.Limit)
+		offset = uint32(pagination.Offset)
+
+		if limit > 20 {
+			return nil, fmt.Errorf("failed to fetch accounts: limit %d is greater than 20", limit)
+		}
 	}
 
-	products, err := r.server.ProductClient.ListProductsWithIDs(ctx, ids, int32(limit), int32(offset))
+	products, err := r.server.ProductClient.ListProductsWithIDs(ctx, ids, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
 
 	var productList []*models.Product
 	for _, prod := range products {
-		productList = append(productList, gatewayUtils.ConvertProductToModel(prod))
+		productList = append(productList, utils.ConvertProductToModel(prod))
 	}
 	return productList, nil
 }
 
 func (r *queryResolver) SearchProducts(ctx context.Context, search string, pagination *models.PaginationInput) ([]*models.Product, error) {
-	limit, offset := 0, 0
+	var limit, offset uint32
+	limit, offset = 0, 0
+
 	if pagination != nil {
-		limit, offset = pagination.Limit, pagination.Offset
+		limit = uint32(pagination.Limit)
+		offset = uint32(pagination.Offset)
+
+		if limit > 20 {
+			return nil, fmt.Errorf("failed to fetch accounts: limit %d is greater than 20", limit)
+		}
 	}
 
-	products, err := r.server.ProductClient.SearchProducts(ctx, search, int32(limit), int32(offset))
+	products, err := r.server.ProductClient.SearchProducts(ctx, search, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
 
 	var productList []*models.Product
 	for _, prod := range products {
-		productList = append(productList, gatewayUtils.ConvertProductToModel(prod))
+		productList = append(productList, utils.ConvertProductToModel(prod))
 	}
 	return productList, nil
 }

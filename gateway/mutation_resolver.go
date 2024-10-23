@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	gatewayUtils "graphql-grpc-go-microservice-project/common/gateway"
 	"graphql-grpc-go-microservice-project/gateway/models"
+	"graphql-grpc-go-microservice-project/gateway/utils"
 	"time"
 )
 
@@ -20,7 +20,7 @@ func (r *mutationResolver) CreateAccount(ctx context.Context, in models.AccountI
 		return nil, err
 	}
 
-	return gatewayUtils.ConvertAccountToModel(account), nil
+	return utils.ConvertAccountToModel(account), nil
 }
 
 func (r *mutationResolver) CreateProduct(ctx context.Context, in models.ProductInput) (*models.Product, error) {
@@ -32,5 +32,5 @@ func (r *mutationResolver) CreateProduct(ctx context.Context, in models.ProductI
 		return nil, err
 	}
 
-	return gatewayUtils.ConvertProductToModel(product), nil
+	return utils.ConvertProductToModel(product), nil
 }

@@ -13,7 +13,7 @@ type AccountRepository interface {
 	CreateAccount(ctx context.Context, email, name string) error
 	GetAccountByID(ctx context.Context, id string) (Account, error)
 	GetAccountByEmail(ctx context.Context, email string) (Account, error)
-	ListAccounts(ctx context.Context, limit, offset int) ([]Account, error)
+	ListAccounts(ctx context.Context, limit, offset uint32) ([]Account, error)
 }
 
 type accountRepository struct {
@@ -77,7 +77,7 @@ func (repository *accountRepository) GetAccountByEmail(ctx context.Context, emai
 	return account, nil
 }
 
-func (repository *accountRepository) ListAccounts(ctx context.Context, limit, offset int) ([]Account, error) {
+func (repository *accountRepository) ListAccounts(ctx context.Context, limit, offset uint32) ([]Account, error) {
 	query := `
         SELECT id, email, name, created_at, updated_at
         FROM accounts

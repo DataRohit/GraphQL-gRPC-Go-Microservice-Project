@@ -8,7 +8,7 @@ type AccountService interface {
 	CreateAccount(ctx context.Context, email, name string) (*Account, error)
 	GetAccountByID(ctx context.Context, id string) (*Account, error)
 	GetAccountByEmail(ctx context.Context, email string) (*Account, error)
-	ListAccounts(ctx context.Context, limit, offset int) ([]Account, error)
+	ListAccounts(ctx context.Context, limit, offset uint32) ([]Account, error)
 }
 
 type accountService struct {
@@ -49,7 +49,7 @@ func (service *accountService) GetAccountByEmail(ctx context.Context, email stri
 	return &account, nil
 }
 
-func (service *accountService) ListAccounts(ctx context.Context, limit, offset int) ([]Account, error) {
+func (service *accountService) ListAccounts(ctx context.Context, limit, offset uint32) ([]Account, error) {
 	accounts, err := service.repository.ListAccounts(ctx, limit, offset)
 	if err != nil {
 		return nil, err

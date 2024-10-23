@@ -11,8 +11,8 @@ type Mutation struct {
 }
 
 type PaginationInput struct {
-	Limit  int `json:"limit"`
-	Offset int `json:"offset"`
+	Limit  UInt32 `json:"limit"`
+	Offset UInt32 `json:"offset"`
 }
 
 type ProductInput struct {

@@ -95,7 +95,7 @@ go mod download
 docker-compose up -d
 
 # Or use make command if available
-make up
+make docker-up
 ```
 
 #### Service Endpoints
@@ -108,6 +108,10 @@ make up
 ## API
 
 [<-- Back to Table of Contents](#table-of-contents)
+
+### Postman API Testing
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/32864979-78a66d62-d213-47d7-9123-7aa66b574ef7?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D32864979-78a66d62-d213-47d7-9123-7aa66b574ef7%26entityType%3Dcollection%26workspaceId%3D1dd56a9a-12eb-40b3-b293-78395b3c2bc7)
 
 ### GraphQL Schema
 
