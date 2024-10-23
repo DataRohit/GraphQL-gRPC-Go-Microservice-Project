@@ -66,13 +66,23 @@ services:
         networks:
             - graphql-gprc-go-microservices-network
 
-    db-admin:
+    postgres-db-admin:
         image: dpage/pgadmin4
-        container_name: db-admin
+        container_name: postgres-db-admin
         ports:
             - "5050:80"
         env_file:
             - ./.envs/.pgadmin.env
+        networks:
+            - graphql-gprc-go-microservices-network
+
+    elasticsearch-db-admin:
+        image: docker.elastic.co/kibana/kibana:7.17.24
+        container_name: elasticsearch-db-admin
+        ports:
+            - "5601:5601"
+        env_file:
+            - ./.envs/.kibana.env
         networks:
             - graphql-gprc-go-microservices-network
 
