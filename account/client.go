@@ -129,11 +129,11 @@ func (c *AccountClient) GetAccountByEmail(ctx context.Context, email string) (*A
 	}, nil
 }
 
-func (c *AccountClient) ListAccounts(ctx context.Context, limit, offset int32) ([]Account, error) {
+func (c *AccountClient) ListAccounts(ctx context.Context, limit, offset uint32) ([]Account, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	c.logger.Info("ListAccounts request received", zap.Int32("limit", limit), zap.Int32("offset", offset))
+	c.logger.Info("ListAccounts request received", zap.Uint32("limit", limit), zap.Uint32("offset", offset))
 
 	r, err := c.service.ListAccounts(ctx, &protobuf.ListAccountsRequest{
 		Limit:  limit,

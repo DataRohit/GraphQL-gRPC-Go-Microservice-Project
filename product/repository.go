@@ -21,9 +21,9 @@ type ProductRepository interface {
 	Close()
 	CreateProduct(ctx context.Context, name, description string, price float64) (*Product, error)
 	GetProductByID(ctx context.Context, id string) (*Product, error)
-	ListProducts(ctx context.Context, offset, limit int) ([]Product, error)
+	ListProducts(ctx context.Context, offset, limit uint32) ([]Product, error)
 	ListProductsWithIDs(ctx context.Context, ids []string) ([]Product, error)
-	SearchProducts(ctx context.Context, query string, offset, limit int) ([]Product, error)
+	SearchProducts(ctx context.Context, query string, offset, limit uint32) ([]Product, error)
 }
 
 type elasticRepository struct {
@@ -118,7 +118,7 @@ func (r *elasticRepository) GetProductByID(ctx context.Context, id string) (*Pro
 	}, nil
 }
 
-func (r *elasticRepository) ListProducts(ctx context.Context, offset, limit int) ([]Product, error) {
+func (r *elasticRepository) ListProducts(ctx context.Context, offset, limit uint32) ([]Product, error) {
 	query := `{
 		"from": %d,
 		"size": %d,
@@ -213,7 +213,7 @@ func (r *elasticRepository) ListProductsWithIDs(ctx context.Context, ids []strin
 	return products, nil
 }
 
-func (r *elasticRepository) SearchProducts(ctx context.Context, query string, offset, limit int) ([]Product, error) {
+func (r *elasticRepository) SearchProducts(ctx context.Context, query string, offset, limit uint32) ([]Product, error) {
 	var buf bytes.Buffer
 
 	searchQuery := `{

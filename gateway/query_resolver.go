@@ -42,7 +42,7 @@ func (r *queryResolver) ListAccounts(ctx context.Context, pagination *models.Pag
 		limit, offset = pagination.Limit, pagination.Offset
 	}
 
-	accounts, err := r.server.AccountClient.ListAccounts(ctx, int32(limit), int32(offset))
+	accounts, err := r.server.AccountClient.ListAccounts(ctx, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (r *queryResolver) ListProducts(ctx context.Context, pagination *models.Pag
 		limit, offset = pagination.Limit, pagination.Offset
 	}
 
-	products, err := r.server.ProductClient.ListProducts(ctx, int32(limit), int32(offset))
+	products, err := r.server.ProductClient.ListProducts(ctx, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (r *queryResolver) ListProductsWithIDs(ctx context.Context, ids []string, p
 		limit, offset = pagination.Limit, pagination.Offset
 	}
 
-	products, err := r.server.ProductClient.ListProductsWithIDs(ctx, ids, int32(limit), int32(offset))
+	products, err := r.server.ProductClient.ListProductsWithIDs(ctx, ids, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (r *queryResolver) SearchProducts(ctx context.Context, search string, pagin
 		limit, offset = pagination.Limit, pagination.Offset
 	}
 
-	products, err := r.server.ProductClient.SearchProducts(ctx, search, int32(limit), int32(offset))
+	products, err := r.server.ProductClient.SearchProducts(ctx, search, uint32(limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}

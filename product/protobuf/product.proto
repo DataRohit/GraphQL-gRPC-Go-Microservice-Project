@@ -34,8 +34,8 @@ message GetProductByIDResponse {
 }
 
 message ListProductsRequest {
-    int32 limit = 1;
-    int32 offset = 2;
+    uint32 limit = 1;
+    uint32 offset = 2;
 }
 
 message ListProductsResponse {
@@ -45,8 +45,8 @@ message ListProductsResponse {
 
 message ListProductsWithIDsRequest {
     repeated string ids = 1;
-    int32 limit = 2;
-    int32 offset = 3;
+    uint32 limit = 2;
+    uint32 offset = 3;
 }
 
 message ListProductsWithIDsResponse {
@@ -56,8 +56,8 @@ message ListProductsWithIDsResponse {
 
 message SearchProductsRequest {
     string query = 1;
-    int32 limit = 2;
-    int32 offset = 3;
+    uint32 limit = 2;
+    uint32 offset = 3;
 }
 
 message SearchProductsResponse {

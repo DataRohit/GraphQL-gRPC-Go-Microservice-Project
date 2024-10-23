@@ -135,9 +135,9 @@ func (s *productGrpcServer) GetProductByID(ctx context.Context, r *protobuf.GetP
 }
 
 func (s *productGrpcServer) ListProducts(ctx context.Context, r *protobuf.ListProductsRequest) (*protobuf.ListProductsResponse, error) {
-	s.logger.Info("ListProducts request received", zap.Int32("offset", r.Offset), zap.Int32("limit", r.Limit))
+	s.logger.Info("ListProducts request received", zap.Uint32("offset", r.Offset), zap.Uint32("limit", r.Limit))
 
-	p, err := s.service.ListProducts(ctx, int(r.Offset), int(r.Limit))
+	p, err := s.service.ListProducts(ctx, r.Offset, r.Limit)
 	if err != nil {
 		s.logger.Error("Failed to list products", zap.String("error", err.Error()))
 		return &protobuf.ListProductsResponse{
@@ -185,9 +185,9 @@ func (s *productGrpcServer) ListProductsWithIDs(ctx context.Context, r *protobuf
 }
 
 func (s *productGrpcServer) SearchProducts(ctx context.Context, r *protobuf.SearchProductsRequest) (*protobuf.SearchProductsResponse, error) {
-	s.logger.Info("SearchProducts request received", zap.String("query", r.Query), zap.Int32("offset", r.Offset), zap.Int32("limit", r.Limit))
+	s.logger.Info("SearchProducts request received", zap.String("query", r.Query), zap.Uint32("offset", r.Offset), zap.Uint32("limit", r.Limit))
 
-	p, err := s.service.SearchProducts(ctx, r.Query, int(r.Offset), int(r.Limit))
+	p, err := s.service.SearchProducts(ctx, r.Query, r.Offset, r.Limit)
 	if err != nil {
 		s.logger.Error("Failed to search products", zap.String("query", r.Query), zap.String("error", err.Error()))
 		return &protobuf.SearchProductsResponse{

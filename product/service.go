@@ -5,9 +5,9 @@ import "context"
 type ProductService interface {
 	CreateProduct(ctx context.Context, name, description string, price float64) (*Product, error)
 	GetProductByID(ctx context.Context, id string) (*Product, error)
-	ListProducts(ctx context.Context, limit, offset int) ([]Product, error)
+	ListProducts(ctx context.Context, limit, offset uint32) ([]Product, error)
 	ListProductsWithIDs(ctx context.Context, ids []string) ([]Product, error)
-	SearchProducts(ctx context.Context, query string, limit, offset int) ([]Product, error)
+	SearchProducts(ctx context.Context, query string, limit, offset uint32) ([]Product, error)
 }
 
 type productService struct {
@@ -36,7 +36,7 @@ func (service *productService) GetProductByID(ctx context.Context, id string) (*
 	return nil, err
 }
 
-func (service *productService) ListProducts(ctx context.Context, limit, offset int) ([]Product, error) {
+func (service *productService) ListProducts(ctx context.Context, limit, offset uint32) ([]Product, error) {
 	products, err := service.repository.ListProducts(ctx, limit, offset)
 	if err == nil {
 		return products, nil
@@ -54,7 +54,7 @@ func (service *productService) ListProductsWithIDs(ctx context.Context, ids []st
 	return nil, err
 }
 
-func (service *productService) SearchProducts(ctx context.Context, query string, limit, offset int) ([]Product, error) {
+func (service *productService) SearchProducts(ctx context.Context, query string, limit, offset uint32) ([]Product, error) {
 	products, err := service.repository.SearchProducts(ctx, query, limit, offset)
 	if err == nil {
 		return products, nil

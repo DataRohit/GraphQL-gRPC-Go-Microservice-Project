@@ -165,9 +165,9 @@ func (s *accountGrpcServer) GetAccountByEmail(ctx context.Context, r *protobuf.G
 }
 
 func (s *accountGrpcServer) ListAccounts(ctx context.Context, r *protobuf.ListAccountsRequest) (*protobuf.ListAccountsResponse, error) {
-	s.logger.Info("ListAccounts request received", zap.Int32("limit", r.Limit), zap.Int32("offset", r.Offset))
+	s.logger.Info("ListAccounts request received", zap.Uint32("limit", r.Limit), zap.Uint32("offset", r.Offset))
 
-	accountsList, err := s.service.ListAccounts(ctx, int(r.Limit), int(r.Offset))
+	accountsList, err := s.service.ListAccounts(ctx, r.Limit, r.Offset)
 	if err != nil {
 		s.logger.Error("Failed to list accounts", zap.String("error", err.Error()))
 		return &protobuf.ListAccountsResponse{
