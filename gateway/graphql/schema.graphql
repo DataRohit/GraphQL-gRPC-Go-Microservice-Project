@@ -1,3 +1,5 @@
+scalar UInt32
+
 type Account {
     id: ID!
     email: String!
@@ -25,8 +27,8 @@ input ProductInput {
 }
 
 input PaginationInput {
-    limit: Int!
-    offset: Int!
+    limit: UInt32!
+    offset: UInt32!
 }
 
 type Query {

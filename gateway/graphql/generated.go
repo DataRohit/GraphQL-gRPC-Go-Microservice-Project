@@ -3791,14 +3791,14 @@ func (ec *executionContext) unmarshalInputPaginationInput(ctx context.Context, o
 		switch k {
 		case "limit":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalNUInt322graphqlᚑgrpcᚑgoᚑmicroserviceᚑprojectᚋgatewayᚋmodelsᚐUInt32(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Limit = data
 		case "offset":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalNUInt322graphqlᚑgrpcᚑgoᚑmicroserviceᚑprojectᚋgatewayᚋmodelsᚐUInt32(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4719,21 +4719,6 @@ func (ec *executionContext) marshalNID2ᚕstringᚄ(ctx context.Context, sel ast
 	return ret
 }
 
-func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
-	res, err := graphql.UnmarshalInt(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
-	res := graphql.MarshalInt(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-	}
-	return res
-}
-
 func (ec *executionContext) marshalNProduct2graphqlᚑgrpcᚑgoᚑmicroserviceᚑprojectᚋgatewayᚋmodelsᚐProduct(ctx context.Context, sel ast.SelectionSet, v models.Product) graphql.Marshaler {
 	return ec._Product(ctx, sel, &v)
 }
@@ -4810,6 +4795,16 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNUInt322graphqlᚑgrpcᚑgoᚑmicroserviceᚑprojectᚋgatewayᚋmodelsᚐUInt32(ctx context.Context, v interface{}) (models.UInt32, error) {
+	var res models.UInt32
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNUInt322graphqlᚑgrpcᚑgoᚑmicroserviceᚑprojectᚋgatewayᚋmodelsᚐUInt32(ctx context.Context, sel ast.SelectionSet, v models.UInt32) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
