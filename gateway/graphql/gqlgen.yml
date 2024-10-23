@@ -10,8 +10,6 @@ model:
     package: models
 
 models:
-    UInt32:
-        model: graphql-grpc-go-microservice-project/gateway/models.UInt32
     Account:
         model: graphql-grpc-go-microservice-project/gateway/models.Account
     Product:
